@@ -54,10 +54,10 @@ block view
           h4(class="col-2 mb-0") #{record.shop}
           h4(class="col-1 mb-0 record_amount") #{record.amount}
           div(class="col-1")
-            a(href="record/"+record._id+"/edit" class="btn btn-warning" data-toggle="tooltip" data-placement="right" title="編輯項目")
+            a(href="record/"+record.id+"/edit" class="btn btn-warning" data-toggle="tooltip" data-placement="right" title="編輯項目")
               i(class='fas fa-pencil-alt')
             span(data-toggle="tooltip" data-placement="right" title="刪除項目")
-              a(href="#" ,class="btn btn-danger delete-button",data-toggle="modal" data-target="#deletion" data-restaurant_id=record._id)
+              a(href="#" ,class="btn btn-danger delete-button",data-toggle="modal" data-target="#deletion" data-restaurant_id=record.id)
                 i(class='fas fa-trash-alt')
     div(class = "row d-flex justify-content-center")
       form(action="/record/new", method="get")

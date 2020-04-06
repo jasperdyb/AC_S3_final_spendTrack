@@ -29,7 +29,7 @@ router.get('/', authenticated, (req, res, next) => {
       let monthStart = new Date(month)
       let monthEnd = new Date(m.setMonth(m.getMonth() + 1))
       console.log(monthStart, monthEnd)
-      method.date = { [gt]: monthStart, [lte]: monthEnd }
+      method.date = { [Op.gte]: monthStart, [Op.lte]: monthEnd }
     }
 
     if (category !== 'default') {

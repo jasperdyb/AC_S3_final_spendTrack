@@ -24,34 +24,40 @@ router.post('/new', (req, res, next) => {
 })
 
 router.get('/:id/edit', (req, res, next) => {
-  // TODO fix query
-  Record.findById({ _id: req.params.id, userId: req.user._id })
-    .lean()
-    .exec((err, record) => {
-      if (err) return console.error(err)
-      console.log(record)
+  Record.findOne({
+    where: {
+      Id: req.params.id,
+      UserId: req.user.id
+    }
+  })
+    .then((record) => {
       record.date = dateFormat(record.date)
-      return res.render('edit', { record }) // 利用new頁面編輯資訊
+
+      return res.render('edit', { record })
     })
+    .catch((error) => { return res.status(422).json(error) })
 })
 
 router.put('/:id', (req, res, next) => {
 
   // TODO add input verification
 
-  // TODO fix query
-  Record.findById({ _id: req.params.id, userId: req.user._id }, (err, record) => {
-    if (err) return console.error(err)
-
-    for (var key in req.body) {
-      record[key] = req.body[key]
+  Record.findOne({
+    where: {
+      Id: req.params.id,
+      UserId: req.user.id
     }
-    console.log(record)
-    record.save(err => {
-      if (err) return console.error(err)
+  })
+    .then((record) => {
+      for (var key in req.body) {
+        record[key] = req.body[key]
+      }
+      return record.save()
+    })
+    .then((record) => {
       return res.redirect('/')
     })
-  })
+    .catch((error) => { return res.status(422).json(error) })
 })
 
 router.delete('/:id', (req, res, next) => {

@@ -6,7 +6,7 @@ block view
       h5(class="col-2") *必填欄位
       h2(class="col-auto") 支出項目明細
     div(class="row mt-2 d-flex justify-content-center")
-      form(action="/record/"+record._id+"?_method=PUT" , method="post" , autocomplete="off")
+      form(action="/record/"+record.id+"?_method=PUT" , method="post" , autocomplete="off")
         div(class="form-group row")
           label(class="col-form-label-lg" for="inputName" ) 項目* :
           div(class="col d-flex align-items-center")
