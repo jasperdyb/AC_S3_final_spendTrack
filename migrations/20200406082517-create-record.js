@@ -9,15 +9,19 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       category: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       date: {
+        allowNull: false,
         type: Sequelize.DATE
       },
       amount: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       shop: {
