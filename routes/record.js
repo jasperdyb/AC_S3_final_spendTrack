@@ -12,15 +12,15 @@ router.get('/new', (req, res, next) => {
 })
 
 router.post('/new', (req, res, next) => {
-  req.body.userId = req.user._id
-  const record = new Record(req.body)
+  req.body.UserId = req.user.id
 
   // TODO add input verification
+  Record.create(req.body)
+    .then(
+      (record) => { return res.redirect('/') }
+    )
+    .catch((error) => { return res.status(422).json(error) })
 
-  record.save(err => {
-    if (err) return console.error(err)
-    return res.redirect('/')// 新增完成後，將使用者導回首頁
-  })
 })
 
 router.get('/:id/edit', (req, res, next) => {
