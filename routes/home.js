@@ -5,6 +5,9 @@ const { authenticated } = require('../config/auth')
 const dateFormat = require('../public/js/dateFormat.js')
 const monthFormat = require('../public/js/monthFormat.js')
 
+// 載入Sequelize 篩選關鍵字
+const { Op } = require('sequelize')
+
 // 載入 model
 const db = require('../models')
 const Record = db.Record
