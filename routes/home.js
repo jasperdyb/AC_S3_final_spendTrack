@@ -13,13 +13,7 @@ const User = db.User
 router.get('/', authenticated, (req, res, next) => {
   let month = 'default'
   let category = 'default'
-  let method = {
-    raw: true,
-    nest: true,
-    userId: req.user._id
-  }
-
-
+  let method = { userId: req.user.id }
 
   //set up query method base on query items
   if (Object.entries(req.query).length) {
@@ -50,12 +44,13 @@ router.get('/', authenticated, (req, res, next) => {
         raw: true,
         nest: true,
         // TODO apply query method
-        where: { UserId: req.user.id }
+        where: method,
+        order: [
+          ['date', 'DESC']
+        ]
       })
     })
     .then((records) => {
-      console.log('Here!!')
-      console.log(records)
 
       let totalAmount = 0
       let months = []
