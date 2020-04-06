@@ -30,6 +30,8 @@ module.exports = passport => {
     })
   )
 
+  //TODO Add facebook login function
+
   // passport.use(
   //   new FacebookStrategy({
   //     clientID: process.env.FACEBOOK_ID,
@@ -71,10 +73,9 @@ module.exports = passport => {
   })
 
   passport.deserializeUser((id, done) => {
-    User.findById(id)
-      .lean()
-      .exec((err, user) => {
-        done(err, user)
-      })
+    User.findByPk(id).then((user) => {
+      user = user.get()
+      done(null, user)
+    })
   })
 }

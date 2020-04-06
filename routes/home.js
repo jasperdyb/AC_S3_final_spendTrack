@@ -8,11 +8,18 @@ const monthFormat = require('../public/js/monthFormat.js')
 // 載入 model
 const db = require('../models')
 const Record = db.Record
+const User = db.User
 
 router.get('/', authenticated, (req, res, next) => {
   let month = 'default'
   let category = 'default'
-  let method = { userId: req.user._id }
+  let method = {
+    raw: true,
+    nest: true,
+    userId: req.user._id
+  }
+
+
 
   //set up query method base on query items
   if (Object.entries(req.query).length) {
@@ -25,7 +32,7 @@ router.get('/', authenticated, (req, res, next) => {
       let monthStart = new Date(month)
       let monthEnd = new Date(m.setMonth(m.getMonth() + 1))
       console.log(monthStart, monthEnd)
-      method.date = { $gte: monthStart, $lte: monthEnd }
+      method.date = { [gt]: monthStart, [lte]: monthEnd }
     }
 
     if (category !== 'default') {
@@ -34,12 +41,21 @@ router.get('/', authenticated, (req, res, next) => {
   }
 
 
+  // TODO fix query
+  User.findByPk(req.user.id)
+    .then((user) => {
+      if (!user) throw new Error("user not found")
 
-  Record.find(method)
-    .lean()
-    .sort({ date: 1 })
-    .exec((err, records) => {
-      if (err) return console.error(err)
+      return Record.findAll({
+        raw: true,
+        nest: true,
+        // TODO apply query method
+        where: { UserId: req.user.id }
+      })
+    })
+    .then((records) => {
+      console.log('Here!!')
+      console.log(records)
 
       let totalAmount = 0
       let months = []
@@ -64,8 +80,9 @@ router.get('/', authenticated, (req, res, next) => {
         months.sort()
       }
 
-      return res.render('index', { records, totalAmount, month, category, months }) // 將資料傳給 index 樣板
+      return res.render('index', { records, totalAmount, month, category, months })
     })
+    .catch((error) => { return res.status(422).json(error) })
 })
 
 module.exports = router

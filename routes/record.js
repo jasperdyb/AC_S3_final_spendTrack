@@ -24,6 +24,7 @@ router.post('/new', (req, res, next) => {
 })
 
 router.get('/:id/edit', (req, res, next) => {
+  // TODO fix query
   Record.findById({ _id: req.params.id, userId: req.user._id })
     .lean()
     .exec((err, record) => {
@@ -38,6 +39,7 @@ router.put('/:id', (req, res, next) => {
 
   // TODO add input verification
 
+  // TODO fix query
   Record.findById({ _id: req.params.id, userId: req.user._id }, (err, record) => {
     if (err) return console.error(err)
 
@@ -53,6 +55,7 @@ router.put('/:id', (req, res, next) => {
 })
 
 router.delete('/:id', (req, res, next) => {
+  // TODO fix query
   Record.findById({ _id: req.params.id, userId: req.user._id }, (err, record) => {
     if (err) return console.error(err)
     record.remove(err => {

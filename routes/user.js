@@ -53,6 +53,7 @@ router.post('/register', (req, res) => {
       password2
     })
   } else {
+    // TODO fix query
     User.findOne({ email: email }).then(user => {
       if (user) {                                       // 檢查 email 是否存在
         errors.push({ message: '這個 Email 已經註冊過了' })
