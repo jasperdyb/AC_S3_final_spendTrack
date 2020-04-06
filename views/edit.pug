@@ -1,0 +1,42 @@
+extends layouts\main.pug
+
+block view
+  div(class="container mt-2 px-5")
+    div(class="row mt-4 d-flex justify-content-center")
+      h5(class="col-2") *必填欄位
+      h2(class="col-auto") 支出項目明細
+    div(class="row mt-2 d-flex justify-content-center")
+      form(action="/record/"+record._id+"?_method=PUT" , method="post" , autocomplete="off")
+        div(class="form-group row")
+          label(class="col-form-label-lg" for="inputName" ) 項目* :
+          div(class="col d-flex align-items-center")
+            input(type="text" class="form-control" id="inputName" name='name' value=record.name required)
+        div(class="form-group row")
+          label(class="col-form-label-lg" for="inputDate" ) 日期* :
+          div(class="col d-flex align-items-center input-group date" data-provide="datepicker")
+            input(type="text" class="form-control input-group date" id="inputDate" name='date' placeholder="2020/01/31" value=record.date required)
+            div(class="input-group-append")
+              span( class="input-group-text")
+                i(class="fas fa-calendar-alt")
+        div(class="form-group row")
+          label(class="col-form-label-lg" for="inputCategory" ) 類別* :
+          div(class="col d-flex align-items-center")
+            select(class="form-control" id="inputCategory" name='category' required)
+              option(value="home" selected= record.category=="home"? 'selected': null) 家居物業
+              option(value="traffic" selected= record.category=="traffic"? 'selected': null) 交通出行
+              option(value="fun" selected= record.category=="fun"? 'selected': null) 休閒娛樂
+              option(value="food" selected= record.category=="food"? 'selected': null) 餐飲食品
+              option(value="other" selected= record.category=="other"? 'selected': null) 其他
+        div(class="form-group row")
+          label(class="col-form-label-lg" for="inputShop" ) 商家 :
+          div(class="col d-flex align-items-center")
+            input(type="text" class="form-control" id="inputShop" name='shop' value=record.shop placeholder="7-11,百元理髮,捷運...")                
+        div(class="form-group row")
+          label(class="col-form-label-lg" for="inputAmount" ) 金額* :
+          div(class="col d-flex align-items-center")
+            input(type="number" class="form-control" id="inputAmount" name='amount'  value=record.amount required)
+        div(class="form-group row justify-content-center")
+            button(type="submit" class="btn btn-secondary " id="edit-button") 修改
+
+block script
+  script(src="/js/datePicker.js")

@@ -1,0 +1,84 @@
+extends layouts\main.pug
+
+block view
+  div(class = "container mt-2 px-5") 
+    div(class = "row mt-3 d-flex justify-content-center") 
+      form(action="/" class="col-6" id="classify-form")
+        div(class="form-group row")
+          select(class="form-control col-6" name="month" id="month-filter")
+            option(value="default" ) 所有月份
+            each m in months
+              option(value= m selected= month==m? 'selected': null) #{m}
+          select(class="form-control col-6" name="category" id="category-filter")
+            option(value="default" ) 所有類別
+            option(value="home" selected= category=="home"? 'selected': null) 家居物業
+            option(value="traffic" selected= category=="traffic"? 'selected': null) 交通出行
+            option(value="fun" selected= category=="fun"? 'selected': null) 休閒娛樂
+            option(value="food" selected= category=="food"? 'selected': null) 餐飲食品
+            option(value="other" selected= category=="other"? 'selected': null) 其他  
+
+
+    div(class = "row d-flex justify-content-center")
+      if category != "default"
+        h2 #{category}
+      div(class="col-auto")
+        h2 Total:
+      div(class="col-auto")
+        h2(id = "totalAmount") #{totalAmount}
+    div(id="chart_div") 
+    ul(class="list-group mx-5 ")
+      if !records.length
+        div(class= "d-flex justify-content-center")
+          //-TODO fix text center 
+          p(class="text-center")
+          |There's no record yet. 
+          br
+          | Add one using + button at bottom right corner.
+      each record in records 
+        li(class = "list-group-item d-flex justify-content-between align-items-center record")
+          div(class="col-1")
+            case record.category
+              when "home"
+                i( class="fas fa-home fa-2x record_category" data-category=record.category)
+              when "traffic"
+                i( class="fas fa-shuttle-van fa-2x record_category" data-category=record.category)
+              when "fun"
+                i( class="fas fa-grin-beam fa-2x record_category" data-category=record.category)
+              when "food"
+                i( class="fas fa-utensils fa-2x record_category" data-category=record.category)
+              when "other"
+                i( class="fas fa-pen fa-2x record_category" data-category=record.category)
+          div(class="col-2")
+            h4 #{record.name}
+            h7(class="record_date") #{record.date}
+          h4(class="col-2 mb-0") #{record.shop}
+          h4(class="col-1 mb-0 record_amount") #{record.amount}
+          div(class="col-1")
+            a(href="record/"+record._id+"/edit" class="btn btn-warning" data-toggle="tooltip" data-placement="right" title="編輯項目")
+              i(class='fas fa-pencil-alt')
+            span(data-toggle="tooltip" data-placement="right" title="刪除項目")
+              a(href="#" ,class="btn btn-danger delete-button",data-toggle="modal" data-target="#deletion" data-restaurant_id=record._id)
+                i(class='fas fa-trash-alt')
+    div(class = "row d-flex justify-content-center")
+      form(action="/record/new", method="get")
+        button(type="submit" class="btn btn-primary btn-lg p-3" ) Add Record
+  
+
+  //- delete confirm modal
+  div(class="modal" id="deletion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
+    div( class="modal-dialog" role="document")
+      div(class="modal-content")
+        div(class="modal-header")
+          h5(class="modal-title" id="exampleModalLabel") 刪除確認
+          button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+            span(aria-hidden="true") &times;
+        div(class="modal-body") 確定要刪除項目?
+        div(class="modal-footer")
+          form(action="#" id="deletion-confirm" method="POST")
+            button(type="submit" class="btn btn-danger") 是
+
+
+block script
+  script(src="/js/index.js")
+  script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")
+  script(src="/js/chart.js")

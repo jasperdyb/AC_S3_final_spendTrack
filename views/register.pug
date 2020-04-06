@@ -1,0 +1,23 @@
+extend layouts/main
+
+block view
+  div(class="row mt-5")
+    div(class="col-md-4 m-auto")
+      div(class="card card-body")
+        form(action="/users/register" method="POST")
+          div(class="form-group row")
+            label(for="name" class="col-form-label") Name
+            div(class="col")
+              input(type="name" id="name" name="name" class="form-control" placeholder="Enter Name" value = name)
+          div(class="form-group row")
+            label(for="email" class="col-form-label") Email
+            div(class="col")
+              input(type="email" id="email" name="email" class="form-control" placeholder="Enter Email" value =email)
+          div( class="form-group row")
+            label(for="password") Password
+            input(type="password" id="password" name="password" class="form-control" placeholder="Create Password" value=password)
+          div( class="form-group row")
+            label(for="password2") Confirm password
+            input(type="password" id="password2" name="password2" class="form-control" placeholder="Confirm Password" value=password2)
+          include includes/message.pug
+          button(type="submit" class="btn btn-primary btn-block") Register
