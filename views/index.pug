@@ -1,4 +1,4 @@
-extends layouts\main.pug
+extends layouts/main
 
 block view
   div(class = "container mt-2 px-5") 
@@ -57,7 +57,7 @@ block view
             a(href="record/"+record.id+"/edit" class="btn btn-warning" data-toggle="tooltip" data-placement="right" title="編輯項目")
               i(class='fas fa-pencil-alt')
             span(data-toggle="tooltip" data-placement="right" title="刪除項目")
-              a(href="#" ,class="btn btn-danger delete-button",data-toggle="modal" data-target="#deletion" data-restaurant_id=record.id)
+              a(href="#" ,class="btn btn-danger delete-button",data-toggle="modal" data-target="#deletion" data-record_id=record.id)
                 i(class='fas fa-trash-alt')
     div(class = "row d-flex justify-content-center")
       form(action="/record/new", method="get")

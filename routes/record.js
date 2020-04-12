@@ -6,6 +6,7 @@ const dateFormat = require('../public/js/dateFormat.js')
 // 載入 model
 const db = require('../models')
 const Record = db.Record
+const User = db.User
 
 router.get('/new', (req, res, next) => {
   res.render('new')
@@ -61,8 +62,10 @@ router.put('/:id', (req, res, next) => {
 })
 
 router.delete('/:id', (req, res, next) => {
-  Record.findByPk(req.user.id)
+
+  User.findByPk(req.user.id)
     .then((user) => {
+      console.log(req.user.id)
       if (!user) throw new Error("user not found")
 
       return Record.destroy({

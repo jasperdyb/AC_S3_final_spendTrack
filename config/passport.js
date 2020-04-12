@@ -11,7 +11,7 @@ module.exports = passport => {
   passport.use(
     // 定義 usernameField 為 email 
     new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
-      User.findOne({ email: email })
+      User.findOne({ where: { email: email } })
         .then(user => {
           if (!user) {
             return done(null, false, { message: 'That email is not registered' })
